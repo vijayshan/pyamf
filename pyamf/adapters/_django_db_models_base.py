@@ -172,7 +172,9 @@ class DjangoClassAlias(pyamf.ClassAlias):
             if isinstance(relation, related.ManyToManyField):
                 attrs[name] = [x for x in getattr(obj, name).all()]
             else:
-                del attrs[relation.attname]
+                #check if the model has the relationship before we delete
+                if relation.attname in attrs:
+                    del attrs[relation.attname]
 
         return attrs
 
